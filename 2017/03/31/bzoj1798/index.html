@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Catrihan" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="描述 Description 西行妖又开花了，于是幽灵们排着队到西行寺来观赏樱花，但可怕的是，幽幽子的结界在这个关键的时候却坏了，已经在庭院中的幽灵可以自由召唤自己熟识的幽灵，并且其他幽灵也可以自由从进入庭院。妖梦需要知道一段区间内幽灵的数量才可以放心使用【迷津慈航斩】来清理掉幽灵而不至于破坏庭院。于是她找到了Sakaki，但悲催的Sakaki月考考砸正在补作业，连自己喜欢的女孩都帮不了，所以他找">
+<meta name="keywords" content="模板,线段树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【bzoj1798】Seq维护序列">
+<meta property="og:url" content="strork.github.io&#x2F;2017&#x2F;03&#x2F;31&#x2F;bzoj1798&#x2F;index.html">
+<meta property="og:site_name" content="Catrihan">
+<meta property="og:description" content="描述 Description 西行妖又开花了，于是幽灵们排着队到西行寺来观赏樱花，但可怕的是，幽幽子的结界在这个关键的时候却坏了，已经在庭院中的幽灵可以自由召唤自己熟识的幽灵，并且其他幽灵也可以自由从进入庭院。妖梦需要知道一段区间内幽灵的数量才可以放心使用【迷津慈航斩】来清理掉幽灵而不至于破坏庭院。于是她找到了Sakaki，但悲催的Sakaki月考考砸正在补作业，连自己喜欢的女孩都帮不了，所以他找">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-12T01:52:28.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="strork.github.io/2017/03/31/bzoj1798/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【bzoj1798】Seq维护序列 | Catrihan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Catrihan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Blog</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="strork.github.io/2017/03/31/bzoj1798/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/89.png">
+      <meta itemprop="name" content="Catirhan">
+      <meta itemprop="description" content="Furry,Fursuiter,Oier">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Catrihan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【bzoj1798】Seq维护序列
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-03-31 22:01:56" itemprop="dateCreated datePublished" datetime="2017-03-31T22:01:56+08:00">2017-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-03-12 09:52:28" itemprop="dateModified" datetime="2019-03-12T09:52:28+08:00">2019-03-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/" itemprop="url" rel="index">
+                    <span itemprop="name">线段树</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/03/31/bzoj1798/" class="post-meta-item leancloud_visitors" data-flag-title="【bzoj1798】Seq维护序列" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/03/31/bzoj1798/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/31/bzoj1798/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="描述-Description"><a href="#描述-Description" class="headerlink" title="描述 Description"></a>描述 Description</h3><blockquote>
+<p>西行妖又开花了，于是幽灵们排着队到西行寺来观赏樱花，但可怕的是，幽幽子的结界在这个关键的时候却坏了，已经在庭院中的幽灵可以自由召唤自己熟识的幽灵，并且其他幽灵也可以自由从进入庭院。妖梦需要知道一段区间内幽灵的数量才可以放心使用【迷津慈航斩】来清理掉幽灵而不至于破坏庭院。于是她找到了Sakaki，但悲催的Sakaki月考考砸正在补作业，连自己喜欢的女孩都帮不了，所以他找到了你，希望你能解决这个问题。<br>庭院中的幽灵可以近似看做一条长度为N的线，因为幽灵没有实体所以在单位长度内可以有若干只幽灵，一段区间[ L , R ]内的幽灵可以同时作法，这时区间内的每只幽灵都会召来 C – 1 只幽灵，每只幽灵所召唤的幽灵都会落在自己所在的单位长度内，幽灵也会从天而降，在区间[ L , R ]内每单位区间落下C只幽灵。当妖梦要使用【迷津慈航斩】的时候，就会向你询问区间[ L , R ]内幽灵数的总和（ps 当然幽灵是灵体，是不会消失的，攻击只会使他们暂时迷惘），当然这个数会很大，你只需要输出这个数对5201314取模（膜）的值。</p>
+</blockquote><a id="more"></a>
+<ul>
+<li><p><strong>去tmd垃圾题面</strong></p>
+</li>
+<li><p><strong>区间加法</strong> </p>
+</li>
+<li><p><strong>区间乘法</strong> </p>
+</li>
+<li><p><strong>维护区间和输出取膜</strong></p>
+</li>
+</ul>
+<h3 id="输入格式-Input-Format"><a href="#输入格式-Input-Format" class="headerlink" title="输入格式 Input Format"></a>输入格式 Input Format</h3><blockquote>
+<p>第一行为两个整数N和M<br>N为幽灵队列的长度，M为操作的次数<br>接下来有N个数，第i个数表示第i个单位长度内最初有几个幽灵<br>从第三行开始每行有一个操作<br>操作1：“1 L R C” 区间[ L , R ]内每只幽灵召唤C-1只幽灵在自己的单位长度内；<br>操作2：“2 L R C”区间[ L, R ]内每单位区间增加C只幽灵；<br>操作3：“3 L R”查询区间[ L, R ]内幽灵数量的总和模5201314的值<br>同一行相邻两数之间用一个空格隔开，每行开头和末尾没有多余空格。</p>
+</blockquote>
+<h3 id="输出格式-Output-Format"><a href="#输出格式-Output-Format" class="headerlink" title="输出格式 Output Format"></a>输出格式 Output Format</h3><blockquote>
+<p>对每个操作3，按照它在输入中出现的顺序，依次输出一行一个整数表示询问结果。</p>
+</blockquote>
+<h3 id="样例输入-Sample-Input"><a href="#样例输入-Sample-Input" class="headerlink" title="样例输入 Sample Input"></a>样例输入 Sample Input</h3><blockquote>
+<p>7 5<br>1 2 3 4 5 6 7<br>1 2 5 5<br>3 2 4<br>2 3 7 9<br>3 1 3<br>3 4 7</p>
+</blockquote>
+<h3 id="样例输出-Sample-Output"><a href="#样例输出-Sample-Output" class="headerlink" title="样例输出 Sample Output"></a>样例输出 Sample Output</h3><blockquote>
+<p>45<br>35<br>94</p>
+</blockquote>
+<p>线段树模板题…</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> L(x) (x&lt;&lt;1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> R(x) (x&lt;&lt;1|1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 2100000000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100100</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> intt long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mo 5201314</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">intt ax,ay,x,y,q,c;</span><br><span class="line">intt n,m;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">qaq</span>&#123;</span></span><br><span class="line">    intt maxx,deladd;</span><br><span class="line">    intt delx;</span><br><span class="line">&#125;tree[maxn*<span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="function">intt <span class="title">read</span><span class="params">()</span></span>&#123;</span><br><span class="line">    intt f=<span class="number">1</span>;</span><br><span class="line">    intt k=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> c=getchar();</span><br><span class="line">    <span class="keyword">while</span>(c&gt;<span class="string">'9'</span>||c&lt;<span class="string">'0'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>;</span><br><span class="line">        c=getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(c&gt;=<span class="string">'0'</span>&amp;&amp;c&lt;=<span class="string">'9'</span>)&#123;</span><br><span class="line">        k=(k&lt;&lt;<span class="number">3</span>)+(k&lt;&lt;<span class="number">1</span>)+c-<span class="string">'0'</span>;</span><br><span class="line">        c=getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f*k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_down</span><span class="params">(intt id,intt l,intt r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(tree[id].delx==<span class="number">1</span>&amp;&amp;tree[id].deladd==<span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    intt tad=tree[id].deladd;</span><br><span class="line">    intt txx=tree[id].delx;</span><br><span class="line">    intt mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    tree[L(id)].deladd=(tree[L(id)].deladd*txx+tad)%mo;</span><br><span class="line">    tree[R(id)].deladd=(tree[R(id)].deladd*txx+tad)%mo;</span><br><span class="line">    tree[L(id)].delx=(tree[L(id)].delx*txx)%mo;</span><br><span class="line">    tree[R(id)].delx=(tree[R(id)].delx*txx)%mo;</span><br><span class="line">    tree[L(id)].maxx=(tree[L(id)].maxx*txx+(mid-l+<span class="number">1</span>)*tad)%mo;</span><br><span class="line">    tree[R(id)].maxx=(tree[R(id)].maxx*txx+(r-(mid+<span class="number">1</span>)+<span class="number">1</span>)*tad)%mo;</span><br><span class="line">    tree[id].deladd=<span class="number">0</span>;</span><br><span class="line">    tree[id].delx=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(intt l,intt r,intt id,intt v)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;y||r&lt;x) <span class="keyword">return</span>;</span><br><span class="line">    tree[id].delx=<span class="number">1</span>;</span><br><span class="line">    tree[id].deladd=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;=l&amp;&amp;r&lt;=y)&#123;</span><br><span class="line">        tree[id].maxx=v;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;v&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    intt mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    build(l,mid,L(id),v);</span><br><span class="line">    build(mid+<span class="number">1</span>,r,R(id),v);</span><br><span class="line">    tree[id].maxx=(tree[L(id)].maxx+tree[R(id)].maxx)%mo;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;tree[id].maxx&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">updatax</span><span class="params">(intt l,intt r,intt id,intt v)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;y||r&lt;x) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;=l&amp;&amp;r&lt;=y)&#123;</span><br><span class="line">        tree[id].deladd=(tree[id].deladd*v)%mo;</span><br><span class="line">        tree[id].delx=(tree[id].delx*v)%mo;</span><br><span class="line">        tree[id].maxx=(tree[id].maxx*v)%mo;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    push_down(id,l,r);</span><br><span class="line">    intt mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    updatax(l,mid,L(id),v);</span><br><span class="line">    updatax(mid+<span class="number">1</span>,r,R(id),v);</span><br><span class="line">    tree[id].maxx=(tree[L(id)].maxx+tree[R(id)].maxx)%mo;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">updataadd</span><span class="params">(intt l,intt r,intt id,intt v)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;y||r&lt;x) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;=l&amp;&amp;r&lt;=y)&#123;</span><br><span class="line">        tree[id].deladd=(tree[id].deladd+v)%mo;</span><br><span class="line">        tree[id].maxx=(tree[id].maxx+(r-l+<span class="number">1</span>)*v)%mo;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    push_down(id,l,r);</span><br><span class="line">    intt mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    updataadd(l,mid,L(id),v);</span><br><span class="line">    updataadd(mid+<span class="number">1</span>,r,R(id),v);</span><br><span class="line">    tree[id].maxx=(tree[L(id)].maxx+tree[R(id)].maxx)%mo;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">intt <span class="title">findit</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;y||r&lt;x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;=l&amp;&amp;r&lt;=y)&#123;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;tree[id].</span></span><br><span class="line">        <span class="keyword">return</span> tree[id].maxx%mo;</span><br><span class="line">    &#125;</span><br><span class="line">    push_down(id,l,r);</span><br><span class="line">    intt mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    intt t1=findit(l,mid,L(id));</span><br><span class="line">    intt t2=findit(mid+<span class="number">1</span>,r,R(id));</span><br><span class="line">    <span class="keyword">return</span> (t1+t2)%mo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//freopen("a.txt","r",stdin);</span></span><br><span class="line">    <span class="comment">//freopen("b.txt","w",stdout);</span></span><br><span class="line">    <span class="built_in">memset</span>(tree,<span class="number">0</span>,<span class="keyword">sizeof</span>(tree));</span><br><span class="line">    n=read();</span><br><span class="line">    m=read();</span><br><span class="line">    <span class="comment">//cout&lt;&lt;n&lt;&lt;' '&lt;&lt;m&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">        c=read();</span><br><span class="line">        x=y=i;</span><br><span class="line">        build(<span class="number">1</span>,n,<span class="number">1</span>,c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i)&#123;</span><br><span class="line">        q=read();</span><br><span class="line">        ax=read();</span><br><span class="line">        ay=read();</span><br><span class="line">        <span class="keyword">if</span>(q==<span class="number">1</span>)&#123;</span><br><span class="line">            x=ax;</span><br><span class="line">            y=ay;</span><br><span class="line">            c=read();</span><br><span class="line">            updatax(<span class="number">1</span>,n,<span class="number">1</span>,c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(q==<span class="number">2</span>)&#123;</span><br><span class="line">            x=ax;</span><br><span class="line">            y=ay;</span><br><span class="line">            c=read();</span><br><span class="line">            updataadd(<span class="number">1</span>,n,<span class="number">1</span>,c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            x=ax;</span><br><span class="line">            y=ay;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;findit(<span class="number">1</span>,n,<span class="number">1</span>)%mo&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;"Runtime:"&lt;&lt;double(1.0*clock()/1000.0)&lt;&lt;"S!"&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag"># 模板</a>
+              <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" rel="tag"># 线段树</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2017/03/28/jzyzj1245/" rel="next" title="CEOI售票系统">
+                  <i class="fa fa-chevron-left"></i> CEOI售票系统
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2017/04/13/bzoj1562/" rel="prev" title="【bzoj1562】NOI2009变换序列">
+                  【bzoj1562】NOI2009变换序列 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-Description"><span class="nav-number">1.</span> <span class="nav-text">描述 Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入格式-Input-Format"><span class="nav-number">2.</span> <span class="nav-text">输入格式 Input Format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出格式-Output-Format"><span class="nav-number">3.</span> <span class="nav-text">输出格式 Output Format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样例输入-Sample-Input"><span class="nav-number">4.</span> <span class="nav-text">样例输入 Sample Input</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样例输出-Sample-Output"><span class="nav-number">5.</span> <span class="nav-text">样例输出 Sample Output</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code"><span class="nav-number">6.</span> <span class="nav-text">Code</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Catirhan"
+      src="/images/89.png">
+  <p class="site-author-name" itemprop="name">Catirhan</p>
+  <div class="site-description" itemprop="description">Furry,Fursuiter,Oier</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/strork" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;strork" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/mailto:strork@qq.com" title="E-Mail → mailto:strork@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/strork_han" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;strork_han" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Catirhan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'd6LMKcdzVOcbHuhnlidL3Ox4-gzGzoHsz',
+    appKey: 's8nQsvrhnNppMC5Ww3P1gi2U',
+    placeholder: "Click to comment",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
