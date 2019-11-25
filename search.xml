@@ -8,7 +8,7 @@
 <li>安装Git、Node.js</li>
 <li><p>注册一个github或coding的账号（可以都使用）</p>
 </li>
-<li><p>以github为例，创建一个Repositories（仓库），名字必须是xxxx.github.io，权限是public（公开），然后在仓库里的Setting开通GitHub Pages<img src="https://catrihan.coding.me/images/blog01.png" alt="image-20191124204856775"></p>
+<li><p>以github为例，创建一个Repositories（仓库），名字必须是xxxx.github.io，权限是public（公开），然后在仓库里的Setting开通GitHub Pages<img src="https://strork.github.io/images/blog01.png" alt="image-20191124204856775"></p>
 </li>
 <li>接着在右上角个人账户的Setting页面找到SSH and GPG key页面，把下文提到的ssh key内容添加进去</li>
 </ul><a id="more"></a>
