@@ -1,3 +1,17 @@
+body {
+  background: url("/images/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+.main-inner {
+  background: #fff;
+  opacity: 1;
+}
+.header-inner {
+  opacity: 1;
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -406,7 +420,7 @@ pre,
 }
 pre,
 code {
-  font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
+  font-family: 'Consolas', consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
   background: #eee;
@@ -1178,7 +1192,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #2d706b;
+  background: #cfc7a3;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
